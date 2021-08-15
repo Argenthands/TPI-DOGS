@@ -1,12 +1,12 @@
-require('dotenv').config();
+require('dotenv').config(); // para manejar variables de entorno
 const { Sequelize } = require('sequelize');
-const fs = require('fs');
-const path = require('path');
+const fs = require('fs'); // para acceder, leer y crear archivos y carpetas 
+const path = require('path'); // utilidades para trabajar con rutas de fichero
 const {
-  DB_USER, DB_PASSWORD, DB_HOST,
+  DB_USER, DB_PASSWORD, DB_HOST, DB_TYPE, DATABASE, API_KEY, API_URL
 } = process.env;
 
-const sequelize = new Sequelize(`postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/dogs`, {
+const sequelize = new Sequelize(`${DB_TYPE}://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${DATABASE}`, {
   logging: false, // set to console.log to see the raw SQL queries
   native: false, // lets Sequelize know we can use pg-native for ~30% more speed
 });
@@ -30,10 +30,18 @@ sequelize.models = Object.fromEntries(capsEntries);
 
 // En sequelize.models están todos los modelos importados como propiedades
 // Para relacionarlos hacemos un destructuring
-const { Dog } = sequelize.models;
+const { Dog, Temperament } = sequelize.models;
 
 // Aca vendrian las relaciones
 // Product.hasMany(Reviews);
+
+Dog.belongsToMany(Temperament, {through: "dog_temperament"});
+Temperament.belongsToMany(Dog, {through: "dog_temperament"});
+
+/*
+Dog.hasOne(Temperament)
+Temperament.belongsTo(Dog)
+*/
 
 module.exports = {
   ...sequelize.models, // para poder importar los modelos así: const { Product, User } = require('./db.js');
