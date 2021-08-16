@@ -26,27 +26,38 @@ const getDogsFromApi = async () =>{
       //console.log(separatedTemperaments);
       separatedTemperaments.forEach(async temp =>{
         try{
+          //si no lo encuentra lo agrega a la tabla Temperament
           await Temperament.findOrCreate({
             where: {
               name: temp,
             }
           });
-          /*
-          await Dog_Temperament.findOrCreate({
-            DogId: element.id,
-            TemperamentId: 
+
+          //consulto a la base de datos por el registro que coincida con el elemento que se intento agregar
+          let idTemp = await Temperament.findOne({
+            where:{
+              name: temp
+            }
           })
-          */
+
+          //Transformo a Json la respuesta de la consulta anterior
+          idTemp = await JSON.stringify(idTemp)
+          idTemp = JSON.parse(idTemp)
+          idTemp = idTemp.id
+          //console.log(idTemp)
+          
+          //intento agregar una relacion a la tabla intermedia con las key de cada tabla
+          
+          await Dog_Temperament.create({
+            DogId: element.id,
+            TemperamentId: idTemp
+          })
         }
         catch (error){
           console.log(error)
         }
       })
     }
-
-    
-
-
       Dog.create({
         id: element.id,
         name: element.name,
