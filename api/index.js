@@ -22,7 +22,7 @@ const { conn } = require('./src/db.js');
 
 
 
-const {getDogsFromApi, getTemperamentsFromApi} = require('./src/louder/loader');
+const { getDogsFromApi } = require('./src/louder/loader');
 
 /*
 const express = require('express');
@@ -35,7 +35,6 @@ app.use(express.json());
 conn.sync({ force: true }).then(() => {
   server.listen(3001, () => {
     getDogsFromApi();
-    //getTemperamentsFromApi();
     console.log('server listening at 3001'); // eslint-disable-line no-console
   });
 });

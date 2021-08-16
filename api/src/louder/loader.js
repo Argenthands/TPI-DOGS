@@ -1,7 +1,8 @@
 //const fetch = require('node-fetch');
 const axios = require('axios');
-const { Dog, Temperament } = require('../db');
+const { Dog, Temperament, Dog_Temperament} = require('../db');
 const { response } = require('express');
+const e = require('express');
 
 const {
     API_KEY, API_URL_BREEDS
@@ -17,11 +18,34 @@ const getDogsFromApi = async () =>{
     data.forEach(element => {
 
       //console.log(element.temperament.split(','))
+      //let tempDogID = element.id;
 
-      Temperament.create({
-        id: element.id,
-        name: element.temperament
+    if(element.temperament){
+      let separatedTemperaments = element.temperament.split(',');
+      separatedTemperaments = separatedTemperaments.map((temp)=>temp.trim())
+      //console.log(separatedTemperaments);
+      separatedTemperaments.forEach(async temp =>{
+        try{
+          await Temperament.findOrCreate({
+            where: {
+              name: temp,
+            }
+          });
+          /*
+          await Dog_Temperament.findOrCreate({
+            DogId: element.id,
+            TemperamentId: 
+          })
+          */
+        }
+        catch (error){
+          console.log(error)
+        }
       })
+    }
+
+    
+
 
       Dog.create({
         id: element.id,

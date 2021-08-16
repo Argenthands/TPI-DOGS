@@ -3,20 +3,15 @@ const { DataTypes } = require('sequelize');
 // Luego le injectamos la conexion a sequelize.
 module.exports = (sequelize) => {
   // defino el modelo
-  sequelize.define('temperament', {
-    id: {
-      type: DataTypes.INTEGER,
-      autoIncrement: true,
-      allowNull: false,
-      primaryKey: true
-    },
+  sequelize.define('Temperament', {
     name: {
       type: DataTypes.STRING,
+      unique: true,
       allowNull: true,
     }
   },
   {
-    timestamps: false
+    timestamps: false //no crear los atributos de fecha de actualizacion y creacion
   });
 };
 
