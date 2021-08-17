@@ -29,7 +29,7 @@ Crea una raza de perro en la base de datos
 router.get('/', async function (req, res){
     try {
         //const temperaments = await Temperament.findAll({})
-        const dogs = await Dog.findAll({
+        await Dog.findAll({
             attributes: ['image','name'],
             include: {
                 model: Temperament,
@@ -49,7 +49,7 @@ router.get('/', async function (req, res){
 })
 
 //Agrega un perro en la base de dato
-router.post('/add', (req, res)=>{
+router.post('/add', async (req, res)=>{
     const {name, height, weight, life_span, image} = req.body;
     return res.status(200).json(addDog(name, height, weight, life_span, image));
 })

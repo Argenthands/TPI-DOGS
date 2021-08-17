@@ -1,5 +1,5 @@
 //const axios = require('axios');
-const { Dog} = require('../db');
+const { Dog } = require('../db');
 
 
 
@@ -7,8 +7,11 @@ const { Dog} = require('../db');
 const addDog = async function (name, height, weight, life_span, image = null){
 
     //voy a tener que consultar cual es la clave que sigue
+    let newID = await Dog.max('id')
+    newID = newID +1;
 
     const creaated = await Dog.create({
+        id: newID,
         name: name,
         height: height,
         weight: weight,

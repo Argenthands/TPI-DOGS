@@ -4,7 +4,7 @@ const router = express.Router();
 
 router.get('/', async (req, res)=>{
     try {
-        const temperament = await Temperament.findAll()
+        await Temperament.findAll()
         .then(temperaments =>{
             return res.status(200).json(temperaments)
         })
