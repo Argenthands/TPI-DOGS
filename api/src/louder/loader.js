@@ -1,8 +1,8 @@
 //const fetch = require('node-fetch');
 const axios = require('axios');
 const { Dog, Temperament, Dog_Temperament} = require('../db');
-const { response } = require('express');
-const e = require('express');
+//const { response } = require('express');
+//const express = require('express');
 
 const {
     API_KEY, API_URL_BREEDS
